@@ -166,6 +166,11 @@ endif
 
 LOCAL_HEADER_LIBRARIES += libhardware_headers
 
+ifeq ($(strip $(AUDIO_FEATURE_ENABLED_HWDEP_CAL)),true)
+  LOCAL_CFLAGS += -DHWDEP_CAL_ENABLED
+  LOCAL_SRC_FILES += audio_extn/hwdep_cal.c
+endif
+
 LOCAL_MODULE := audio.primary.$(TARGET_BOARD_PLATFORM)
 
 LOCAL_MODULE_RELATIVE_PATH := hw
