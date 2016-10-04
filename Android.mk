@@ -1,4 +1,5 @@
-ifneq ($(filter mpq8092 msm8960 msm8226 msm8x26 msm8610 msm8974 msm8x74 apq8084 msm8916 msm8994 msm8992 msm8909 msm8996 msm8952 msm8937 thorium msm8953 msmgold msm8998 sdm660 sdm845 apq8098_latv,$(TARGET_BOARD_PLATFORM)),)
+ifeq ($(TARGET_QCOM_AUDIO_VARIANT),caf-msm8996)
+ifneq ($(filter mpq8092 msm8960 msm8226 msm8x26 msm8610 msm8974 msm8x74 apq8084 msm8916 msm8994 msm8992 msm8909 msm8996 msm8952 msm8937 thorium msm8953 msmgold msmcobalt msmfalcon,$(TARGET_BOARD_PLATFORM)),)
 
 MY_LOCAL_PATH := $(call my-dir)
 
@@ -22,4 +23,5 @@ ifeq ($(USE_LEGACY_AUDIO_DAEMON), true)
 include $(MY_LOCAL_PATH)/audiod/Android.mk
 endif
 
+endif
 endif
