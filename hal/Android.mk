@@ -11,7 +11,7 @@ ifneq ($(filter msm8960,$(TARGET_BOARD_PLATFORM)),)
   LOCAL_CFLAGS := -DPLATFORM_MSM8960
   LOCAL_CFLAGS += -DMAX_TARGET_SPECIFIC_CHANNEL_CNT="2"
 endif
-ifneq ($(filter msm8974 msm8226 msm8084 msm8992 msm8994 msm8996 msm8998,$(TARGET_BOARD_PLATFORM)),)
+ifneq ($(filter msm8974 msm8226 msm8084 msm8992 msm8994 msm8996 msm8953 msm8998,$(TARGET_BOARD_PLATFORM)),)
   # B-family platform uses msm8974 code base
   AUDIO_PLATFORM = msm8974
 ifneq ($(filter msm8974,$(TARGET_BOARD_PLATFORM)),)
@@ -38,6 +38,12 @@ ifneq ($(filter msm8994,$(TARGET_BOARD_PLATFORM)),)
 endif
 ifneq ($(filter msm8996,$(TARGET_BOARD_PLATFORM)),)
   LOCAL_CFLAGS := -DPLATFORM_MSM8996
+  LOCAL_CFLAGS += -DMAX_TARGET_SPECIFIC_CHANNEL_CNT="4"
+  LOCAL_CFLAGS += -DKPI_OPTIMIZE_ENABLED
+  MULTIPLE_HW_VARIANTS_ENABLED := true
+endif
+ifneq ($(filter msm8953,$(TARGET_BOARD_PLATFORM)),)
+  LOCAL_CFLAGS := -DPLATFORM_MSM8953
   LOCAL_CFLAGS += -DMAX_TARGET_SPECIFIC_CHANNEL_CNT="4"
   LOCAL_CFLAGS += -DKPI_OPTIMIZE_ENABLED
   MULTIPLE_HW_VARIANTS_ENABLED := true
@@ -121,12 +127,12 @@ ifeq ($(strip $(AUDIO_FEATURE_NO_AUDIO_OUT)),true)
     LOCAL_CFLAGS += -DNO_AUDIO_OUT
 endif
 
-ifeq ($(strip $(BOARD_SUPPORTS_SOUND_TRIGGER)),true)
-    LOCAL_CFLAGS += -DSOUND_TRIGGER_ENABLED
-    LOCAL_CFLAGS += -DSOUND_TRIGGER_PLATFORM_NAME=$(TARGET_BOARD_PLATFORM)
-    LOCAL_C_INCLUDES += $(TARGET_OUT_HEADERS)/mm-audio/sound_trigger
-    LOCAL_SRC_FILES += audio_extn/soundtrigger.c
-endif
+#ifeq ($(strip $(BOARD_SUPPORTS_SOUND_TRIGGER)),true)
+#    LOCAL_CFLAGS += -DSOUND_TRIGGER_ENABLED
+#    LOCAL_CFLAGS += -DSOUND_TRIGGER_PLATFORM_NAME=$(TARGET_BOARD_PLATFORM)
+#    LOCAL_C_INCLUDES += $(TARGET_OUT_HEADERS)/mm-audio/sound_trigger
+#    LOCAL_SRC_FILES += audio_extn/soundtrigger.c
+#endif
 
 ifeq ($(strip $(AUDIO_FEATURE_ENABLED_SPKR_PROTECTION)),true)
     LOCAL_CFLAGS += -DSPKR_PROT_ENABLED
@@ -138,7 +144,7 @@ ifeq ($(strip $(AUDIO_FEATURE_ENABLED_DSM_FEEDBACK)),true)
     LOCAL_SRC_FILES += audio_extn/dsm_feedback.c
 endif
 
-ifneq ($(filter msm8992 msm8994 msm8996 msm8998,$(TARGET_BOARD_PLATFORM)),)
+ifneq ($(filter msm8992 msm8994 msm8996 msm8953 msm8998,$(TARGET_BOARD_PLATFORM)),)
   # push codec/mad calibration to HW dep node
   # applicable to msm8992/8994 or newer platforms
   LOCAL_CFLAGS += -DHWDEP_CAL_ENABLED
