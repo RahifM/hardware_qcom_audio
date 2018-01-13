@@ -364,7 +364,7 @@ ifeq ($(strip $($AUDIO_FEATURE_IP_HDLR_ENABLED)),true)
     LOCAL_SRC_FILES += audio_extn/ip_hdlr_intf.c
 endif
 
-LOCAL_CFLAGS += -Wall -Werror
+LOCAL_CFLAGS += -Wall #-Werror
 
 LOCAL_COPY_HEADERS_TO   := mm-audio
 LOCAL_COPY_HEADERS      := audio_extn/audio_defs.h
