@@ -29,6 +29,19 @@
 #include "platform.h"
 #include "platform_api.h"
 
+#ifndef FM_POWER_OPT
+#define audio_extn_fm_set_parameters(adev, parms) (0)
+#else
+void audio_extn_fm_set_parameters(struct audio_device *adev,
+                                   struct str_parms *parms);
+#endif
+
+void audio_extn_set_parameters(struct audio_device *adev,
+                               struct str_parms *parms)
+{
+   audio_extn_fm_set_parameters(adev, parms);
+}
+
 struct snd_card_split cur_snd_card_split = {
     .device = {0},
     .snd_card = {0},
@@ -84,6 +97,21 @@ void audio_extn_set_snd_card_split(const char* in_snd_card_name)
 on_error:
     if (snd_card_name)
         free(snd_card_name);
+}
+
+
+bool audio_extn_dedicated_voip_device_prop_check()
+{
+    char prop_value[PROPERTY_VALUE_MAX] = {0};
+
+    property_get("use.dedicated.device.for.voip", prop_value, "0");
+    if (!strncmp("true", prop_value, sizeof("true")))
+    {
+        ALOGD("%s: Using dedicated path for VoIP", __func__);
+        return true;
+    }
+    else
+        return false;
 }
 
 #ifdef KPI_OPTIMIZE_ENABLED

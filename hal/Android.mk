@@ -8,9 +8,10 @@ LOCAL_ARM_MODE := arm
 
 AUDIO_PLATFORM := $(TARGET_BOARD_PLATFORM)
 ifneq ($(filter msm8960,$(TARGET_BOARD_PLATFORM)),)
+  LOCAL_CFLAGS := -DPLATFORM_MSM8960
   LOCAL_CFLAGS += -DMAX_TARGET_SPECIFIC_CHANNEL_CNT="2"
 endif
-ifneq ($(filter msm8974 msm8226 msm8084 msm8992 msm8994 msm8996 msm8998,$(TARGET_BOARD_PLATFORM)),)
+ifneq ($(filter msm8960 msm8974 msm8226 msm8084 msm8992 msm8994 msm8996 msm8998,$(TARGET_BOARD_PLATFORM)),)
   # B-family platform uses msm8974 code base
   AUDIO_PLATFORM = msm8974
 ifneq ($(filter msm8974,$(TARGET_BOARD_PLATFORM)),)
@@ -110,6 +111,9 @@ ifeq ($(strip $(AUDIO_FEATURE_ENABLED_SMART_PA_TFA_98XX)),true)
     LOCAL_SRC_FILES += audio_extn/tfa_98xx.c
 endif
 
+LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
+LOCAL_ADDITIONAL_DEPENDENCIES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
+
 ifeq ($(strip $(AUDIO_FEATURE_ENABLED_MULTI_VOICE_SESSIONS)),true)
     LOCAL_CFLAGS += -DMULTI_VOICE_SESSION_ENABLED
     LOCAL_SRC_FILES += voice_extn/voice_extn.c
@@ -162,6 +166,16 @@ ifeq ($(strip $(AUDIO_FEATURE_ENABLED_SND_MONITOR)), true)
 endif
 
 LOCAL_HEADER_LIBRARIES += libhardware_headers
+
+ifeq ($(strip $(AUDIO_FEATURE_ENABLED_HWDEP_CAL)),true)
+  LOCAL_CFLAGS += -DHWDEP_CAL_ENABLED
+  LOCAL_SRC_FILES += audio_extn/hwdep_cal.c
+endif
+
+ifeq ($(strip $(AUDIO_FEATURE_ENABLED_FM_POWER_OPT)),true)
+    LOCAL_CFLAGS += -DFM_POWER_OPT
+    LOCAL_SRC_FILES += audio_extn/fm.c
+endif
 
 LOCAL_MODULE := audio.primary.$(TARGET_BOARD_PLATFORM)
 
