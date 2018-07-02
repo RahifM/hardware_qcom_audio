@@ -92,7 +92,6 @@ enum {
     USECASE_AUDIO_RECORD_LOW_LATENCY,
     USECASE_AUDIO_RECORD_MMAP,
     USECASE_AUDIO_RECORD_HIFI,
-    USECASE_AUDIO_RECORD_FM_VIRTUAL,
 
     /* Voice extension usecases
      *
@@ -131,9 +130,6 @@ enum {
     /* VOIP usecase*/
     USECASE_AUDIO_PLAYBACK_VOIP,
     USECASE_AUDIO_RECORD_VOIP,
-
-    /* FM usecase */
-    USECASE_AUDIO_PLAYBACK_FM,
 
     AUDIO_USECASE_MAX
 };
